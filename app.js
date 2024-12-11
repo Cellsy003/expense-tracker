@@ -22,8 +22,8 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.redirect('/login'));
 
 // Authentication routes
-app.get('/register', (req, res) => res.render('register'));
-app.get('/login', (req, res) => res.render('login'));
+app.get('/register', (req, res) => res.render('register', { error: null }));
+app.get('/login', (req, res) => res.render('login', { error: null }));
 app.get('/welcome', (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');

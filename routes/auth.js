@@ -20,9 +20,10 @@ router.post('/register', async (req, res) => {
     res.redirect('/login');
   } catch (error) {
     console.error('Registration Error:', error);
-    res.status(500).send('Error during registration');
+    res.render('register', { error: 'Email or username exists. Please try again.' });
   }
 });
+
 
 // Login
 router.post('/login', async (req, res) => {
@@ -33,14 +34,16 @@ router.post('/login', async (req, res) => {
     });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).send('Invalid email or password');
+      return res.render('login', { error: 'Invalid email or password' });
     }
 
     req.session.user = { id: user.id, username: user.username };
     res.redirect(`/welcome`);
   } catch (error) {
-    res.status(500).send('Error during login');
+    console.error('Login Error:', error);
+    res.render('login', { error: 'Error during login. Please try again.' });
   }
 });
+
 
 module.exports = router;
